@@ -13,8 +13,8 @@ let page = 1;
 let limit = 10;
 
 function getCardPhotos({ title, url, id, albumId, thumbnailUrl }) {
-    return `
-    <div class="col-3 mb-3">
+  return `
+    <div class="col-lg-4 col-12 col-sm-6 mb-3">
       <div class="card">
         <div class="card-body">
         <p>${albumId}</p>
@@ -28,38 +28,38 @@ function getCardPhotos({ title, url, id, albumId, thumbnailUrl }) {
 }
 
 function saveId(id) {
-    localStorage.setItem("post", id);
+  localStorage.setItem("post", id);
 }
 
 async function getData() {
-    photosRow.innerHTML = "...loading";
-    let res = await fetch(
-        `https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=${limit}`
-    );
-    let data = await res.json();
-    photosRow.innerHTML = "";
-    data.forEach((post) => {
-        photosRow.innerHTML += getCardPhotos(post);
-    });
+  photosRow.innerHTML = "...loading";
+  let res = await fetch(
+    `https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=${limit}`
+  );
+  let data = await res.json();
+  photosRow.innerHTML = "";
+  data.forEach((post) => {
+    photosRow.innerHTML += getCardPhotos(post);
+  });
 }
 
 getData();
 
 function getPagination() {
-    let pagination_numbers = "";
-    Array(10)
-        .fill(1)
-        .forEach((item, index) => {
-            pagination_numbers += `<li class="page-item ${
+  let pagination_numbers = "";
+  Array(10)
+    .fill(1)
+    .forEach((item, index) => {
+      pagination_numbers += `<li class="page-item ${
         page == index + 1 ? "active" : ""
       }" onclick="getPage(${index + 1})">
         <span class="page-link">
           ${index + 1}
         </span>
       </li>`;
-        });
+    });
 
-    pagination.innerHTML = `
+  pagination.innerHTML = `
     <li onclick="getPage('-')" class="page-item ${
       page == 1 ? "disabled" : ""
     }"><button class="page-link" href="#">Previous</button></li>
@@ -73,15 +73,15 @@ function getPagination() {
 getPagination();
 
 function getPage(p) {
-    if (p == "+") {
-        page++;
-    } else if (p == "-") {
-        page--;
-    } else {
-        page = p;
-    }
-    if (page <= 10) {
-        getData();
-        getPagination();
-    }
+  if (p == "+") {
+    page++;
+  } else if (p == "-") {
+    page--;
+  } else {
+    page = p;
+  }
+  if (page <= 10) {
+    getData();
+    getPagination();
+  }
 }
